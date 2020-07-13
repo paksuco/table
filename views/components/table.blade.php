@@ -50,7 +50,8 @@
                         <svg class="h-8 w-8 text-teal-600" viewBox="0 0 20 20" fill="currentColor">
                             <path fill-rule="evenodd"
                                 d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z"
-                                clip-rule="evenodd" /></svg>
+                                clip-rule="evenodd" />
+                        </svg>
                     </div>
                     <div x-html="selectedRows.length + ' rows are selected'" class="text-teal-800 text-lg"></div>
                 </div>
@@ -97,17 +98,17 @@
 
                         <div x-show="open" @click.away="open = false"
                             class="z-40 absolute top-0 right-0 w-40 bg-white rounded-lg shadow-lg mt-12 -mr-1 block py-1 overflow-hidden">
-                            <template x-for="heading in headings">
-                                <label
-                                    class="flex justify-start items-center text-truncate hover:bg-gray-100 px-4 py-2">
-                                    <div class="text-teal-600 mr-3">
-                                        <input type="checkbox"
-                                            class="form-checkbox focus:outline-none focus:shadow-outline" checked
-                                            @click="toggleColumn(heading.key)">
-                                    </div>
-                                    <div class="select-none text-gray-700" x-text="heading.value"></div>
-                                </label>
-                            </template>
+                            @foreach(collect($fields)->pluck("name") as $header)
+                            <label
+                                class="flex justify-start items-center text-truncate hover:bg-gray-100 px-4 py-2">
+                                <div class="text-teal-600 mr-3">
+                                    <input type="checkbox"
+                                        class="form-checkbox focus:outline-none focus:shadow-outline" checked
+                                        @click="toggleColumn('{{$header}}')">
+                                </div>
+                                <div class="select-none text-gray-700" x-text="'{{$header}}'"></div>
+                            </label>
+                            @endforeach
                         </div>
                     </div>
                 </div>
@@ -117,55 +118,12 @@
         <div class="overflow-x-auto bg-white rounded-lg shadow overflow-y-auto relative">
             <table class="border-collapse table-auto w-full whitespace-no-wrap bg-white table-striped relative">
                 <thead>
-                    <tr class="text-left">
-                        <th class="py-2 px-3 sticky top-0 border-b border-gray-200 bg-gray-100">
-                            <label
-                                class="text-teal-500 inline-flex justify-between items-center hover:bg-gray-200 px-2 py-2 rounded-lg cursor-pointer">
-                                <input type="checkbox" class="form-checkbox focus:outline-none focus:shadow-outline"
-                                    @click="selectAllCheckbox($event);">
-                            </label>
-                        </th>
-                        <template x-for="heading in headings">
-                            <th class="bg-gray-100 sticky top-0 border-b border-gray-200 px-6 py-2 text-gray-600 font-bold tracking-wider uppercase text-xs"
-                                x-text="heading.value" :x-ref="heading.key" :class="{ [heading.key]: true }"></th>
-                        </template>
-                    </tr>
+                    @include("paksuco-table::components.headers")
                 </thead>
                 <tbody>
-                    <template x-for="user in users" :key="user.userId">
-                        <tr>
-                            <td class="border-dashed border-t border-gray-200 px-3">
-                                <label
-                                    class="text-teal-500 inline-flex justify-between items-center hover:bg-gray-200 px-2 py-2 rounded-lg cursor-pointer">
-                                    <input type="checkbox"
-                                        class="form-checkbox rowCheckbox focus:outline-none focus:shadow-outline"
-                                        :name="user.userId"
-                                        @click="getRowDetail($event, user.userId)">
-                                </label>
-                            </td>
-                            <td class="border-dashed border-t border-gray-200 userId">
-                                <span class="text-gray-700 px-6 py-3 flex items-center" x-text="user.userId"></span>
-                            </td>
-                            <td class="border-dashed border-t border-gray-200 firstName">
-                                <span class="text-gray-700 px-6 py-3 flex items-center" x-text="user.firstName"></span>
-                            </td>
-                            <td class="border-dashed border-t border-gray-200 lastName">
-                                <span class="text-gray-700 px-6 py-3 flex items-center" x-text="user.lastName"></span>
-                            </td>
-                            <td class="border-dashed border-t border-gray-200 emailAddress">
-                                <span class="text-gray-700 px-6 py-3 flex items-center"
-                                    x-text="user.emailAddress"></span>
-                            </td>
-                            <td class="border-dashed border-t border-gray-200 gender">
-                                <span class="text-gray-700 px-6 py-3 flex items-center"
-                                    x-text="user.gender"></span>
-                            </td>
-                            <td class="border-dashed border-t border-gray-200 phoneNumber">
-                                <span class="text-gray-700 px-6 py-3 flex items-center"
-                                    x-text="user.phoneNumber"></span>
-                            </td>
-                        </tr>
-                    </template>
+                    @foreach($rows as $row)
+                    @include("paksuco-table::components.rows", $row)
+                    @endforeach
                 </tbody>
             </table>
         </div>
@@ -174,145 +132,14 @@
     <script>
         function datatables() {
 			return {
-				headings: [
-					{
-						'key': 'userId',
-						'value': 'User ID'
-					},
-					{
-						'key': 'firstName',
-						'value': 'Firstname'
-					},
-					{
-						'key': 'lastName',
-						'value': 'Lastname'
-					},
-					{
-						'key': 'emailAddress',
-						'value': 'Email'
-					},
-					{
-						'key': 'gender',
-						'value': 'Gender'
-					},
-					{
-						'key': 'phoneNumber',
-						'value': 'Phone'
-					}
-				],
-				users: [{
-					"userId": 1,
-					"firstName": "Cort",
-					"lastName": "Tosh",
-					"emailAddress": "ctosh0@github.com",
-					"gender": "Male",
-					"phoneNumber": "327-626-5542"
-				}, {
-					"userId": 2,
-					"firstName": "Brianne",
-					"lastName": "Dzeniskevich",
-					"emailAddress": "bdzeniskevich1@hostgator.com",
-					"gender": "Female",
-					"phoneNumber": "144-190-8956"
-				}, {
-					"userId": 3,
-					"firstName": "Isadore",
-					"lastName": "Botler",
-					"emailAddress": "ibotler2@gmpg.org",
-					"gender": "Male",
-					"phoneNumber": "350-937-0792"
-				}, {
-					"userId": 4,
-					"firstName": "Janaya",
-					"lastName": "Klosges",
-					"emailAddress": "jklosges3@amazon.de",
-					"gender": "Female",
-					"phoneNumber": "502-438-7799"
-				}, {
-					"userId": 5,
-					"firstName": "Freddi",
-					"lastName": "Di Claudio",
-					"emailAddress": "fdiclaudio4@phoca.cz",
-					"gender": "Female",
-					"phoneNumber": "265-448-9627"
-				}, {
-					"userId": 6,
-					"firstName": "Oliy",
-					"lastName": "Mairs",
-					"emailAddress": "omairs5@fda.gov",
-					"gender": "Female",
-					"phoneNumber": "221-516-2295"
-				}, {
-					"userId": 7,
-					"firstName": "Tabb",
-					"lastName": "Wiseman",
-					"emailAddress": "twiseman6@friendfeed.com",
-					"gender": "Male",
-					"phoneNumber": "171-817-5020"
-				}, {
-					"userId": 8,
-					"firstName": "Joela",
-					"lastName": "Betteriss",
-					"emailAddress": "jbetteriss7@msu.edu",
-					"gender": "Female",
-					"phoneNumber": "481-100-9345"
-				}, {
-					"userId": 9,
-					"firstName": "Alistair",
-					"lastName": "Vasyagin",
-					"emailAddress": "avasyagin8@gnu.org",
-					"gender": "Male",
-					"phoneNumber": "520-669-8364"
-				}, {
-					"userId": 10,
-					"firstName": "Nealon",
-					"lastName": "Ratray",
-					"emailAddress": "nratray9@typepad.com",
-					"gender": "Male",
-					"phoneNumber": "993-654-9793"
-				}, {
-					"userId": 11,
-					"firstName": "Annissa",
-					"lastName": "Kissick",
-					"emailAddress": "akissicka@deliciousdays.com",
-					"gender": "Female",
-					"phoneNumber": "283-425-2705"
-				}, {
-					"userId": 12,
-					"firstName": "Nissie",
-					"lastName": "Sidnell",
-					"emailAddress": "nsidnellb@freewebs.com",
-					"gender": "Female",
-					"phoneNumber": "754-391-3116"
-				}, {
-					"userId": 13,
-					"firstName": "Madalena",
-					"lastName": "Fouch",
-					"emailAddress": "mfouchc@mozilla.org",
-					"gender": "Female",
-					"phoneNumber": "584-300-9004"
-				}, {
-					"userId": 14,
-					"firstName": "Rozina",
-					"lastName": "Atkins",
-					"emailAddress": "ratkinsd@japanpost.jp",
-					"gender": "Female",
-					"phoneNumber": "792-856-0845"
-				}, {
-					"userId": 15,
-					"firstName": "Lorelle",
-					"lastName": "Sandcroft",
-					"emailAddress": "lsandcrofte@google.nl",
-					"gender": "Female",
-					"phoneNumber": "882-911-7241"
-				}],
 				selectedRows: [],
 
 				open: false,
 
 				toggleColumn(key) {
 
-					let columns = document.querySelectorAll('.' + key);
+                    let columns = document.querySelectorAll('.' + key);
+                    console.log(columns);
 
 					if (this.$refs[key].classList.contains('hidden') && this.$refs[key].classList.contains(key)) {
 						columns.forEach(column => {
