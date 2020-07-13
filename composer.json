@@ -1,0 +1,41 @@
+{
+  "name": "paksuco/table",
+  "description": "table view with sorts, filters and pages",
+  "keywords": ["table", "livewire", "filter", "sort", "pagination", "laravel"],
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Taha PAKSU",
+      "email": "tpaksu@gmail.com",
+      "homepage": "https://rettica.com"
+    }
+  ],
+  "require": {
+    "php": ">=7.0.0",
+    "illuminate/support": "^7.0",
+    "illuminate/config": "^7.0",
+    "livewire/livewire": "^1.2"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "^6.3"
+  },
+  "autoload": {
+    "psr-4": {
+      "Paksuco\\Table\\": "src/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Paksuco\\Table\\Tests\\": "tests/"
+    }
+  },
+  "extra": {
+    "laravel": {
+        "providers": [
+            "Paksuco\\Table\\ServiceProvider"
+        ]
+    }
+  },
+  "minimum-stability": "dev",
+  "prefer-stable": true
+}
