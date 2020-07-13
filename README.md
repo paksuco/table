@@ -26,9 +26,9 @@ Edit `composer.json` to reflect the package information. At a minimum, the packa
 The file `config/paksuco-table.php`  should be renamed to to something more useful, like `config/my-package.php`. This is the configuration file that Laravel will publish into it's `config` directory.
 
 
-### src/ServiceProvider.php
+### src/TableServiceProvider.php
 
-Open up `src/ServiceProvider.php` as well.  At a minimum the namespace has to be changed (it needs to match the PSR-4 namespace you set in `composer.json`).
+Open up `src/TableServiceProvider.php` as well.  At a minimum the namespace has to be changed (it needs to match the PSR-4 namespace you set in `composer.json`).
 
 In the `boot()` method, comment out or uncomment the components your package will need.  For example, if the package only has a configuration, then everything can be commented out except the `handleConfigs()` call:
 
