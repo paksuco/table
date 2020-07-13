@@ -3,8 +3,8 @@
     <td>
         @if($field["type"] == "field")
         {{$row[$field["name"]]}}
-        @elseif($field["type"] == "actions")
-        {{$actions($row)}}
+        @elseif($field["type"] == "callback")
+        {!! $field["format"]($row) !!}
         @endif
     </td>
     @endforeach

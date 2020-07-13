@@ -1,5 +1,5 @@
 <tr>
-    @foreach($fields->pluck("name") as $header)
+    @foreach(collect($fields)->pluck("name") as $header)
     <th>
         {{__($header)}}
     </th>

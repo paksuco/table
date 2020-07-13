@@ -8,27 +8,43 @@ use Livewire\Component;
 class Table extends Component
 {
     public $model;
-    public $queryable, $sortable, $pageable, $perPage;
+    public $queryable;
+    public $sortable;
+    public $pageable;
+    public $perPage;
     public $fields;
     public $filters;
     public $sorts;
     public $query;
     public $page;
 
-    public function mount(string $model, $queryable = true, $sortable = true, $pageable = true, $perPage = 50,
-        $actions = null, array $fields = [], $filters = [], $sorts = [], $query = "", $page = 1)
-    {
-        $this->page = $page;
-        $this->model = $model;
-        $this->query = $query;
+    public function mount(
+        $model,
+        $queryable = true,
+        $sortable = true,
+        $pageable = true,
+        $perPage = 50,
+        $fields = null,
+        $filters = null,
+        $sorts = null,
+        $query = "",
+        $page = 1
+    ) {
+        $this->model = $model ?? "";
+        $this->query = $query ?? "";
         $this->queryable = $queryable;
         $this->sortable = $sortable;
         $this->pageable = $pageable;
-        $this->perPage = $perPage;
-        $this->actions = $actions ?? function() { return ""; };
-        $this->sorts = $sorts;
-        $this->fields = collect($fields);
-        $this->filters = $filters;
+        $this->perPage = $perPage ?? 50;
+        $this->sorts = $sorts ?? [];
+        $this->fields = $fields ?? [];
+        $this->filters = $filters ?? [];
+        $this->page = $page ?? 1;
+    }
+
+    public static function formatActions($row)
+    {
+        return "";
     }
 
     public function render()
