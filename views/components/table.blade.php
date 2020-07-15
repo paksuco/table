@@ -42,7 +42,7 @@
         }
     </style>
 
-    <div class="container mx-auto py-6 text-sm" x-data="datatables()" x-cloak>
+    <div class="container mx-auto px-4 sm:px-0 py-6 text-sm" x-data="datatables()" x-cloak>
         @include("paksuco-table::components.filters")
         <div class="overflow-x-auto bg-white rounded-lg shadow overflow-y-auto relative">
             <table class="border-collapse table-auto w-full whitespace-no-wrap bg-white table-striped relative">

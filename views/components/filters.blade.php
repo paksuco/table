@@ -25,14 +25,7 @@
             <div class="relative">
                 <button @click.prevent="open = !open"
                     class="rounded-lg inline-flex items-center bg-white hover:text-blue-500 focus:outline-none focus:shadow-outline text-gray-500 font-semibold py-2 px-2 md:px-4">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 md:hidden" viewBox="0 0 24 24"
-                        stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round"
-                        stroke-linejoin="round">
-                        <rect x="0" y="0" width="24" height="24" stroke="none"></rect>
-                        <path
-                            d="M5.5 5h13a1 1 0 0 1 0.5 1.5L14 12L14 19L10 16L10 12L5 6.5a1 1 0 0 1 0.5 -1.5" />
-                    </svg>
-                    <span class="hidden md:block">{{$perPage}}</span>
+                    <span>{{$perPage}}</span>
                     <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 ml-1" width="24" height="24"
                         viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"
                         stroke-linecap="round" stroke-linejoin="round">
