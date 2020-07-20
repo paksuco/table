@@ -1,8 +1,5 @@
 <div class="antialiased">
     <style>
-        [x-cloak] {
-            display: none;
-        }
 
         [type="checkbox"] {
             box-sizing: border-box;
