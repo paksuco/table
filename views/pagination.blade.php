@@ -1,6 +1,6 @@
 @if ($paginator->hasPages())
-<div class="flex mt-4">
-    <div class="flex items-center justify-center mr-5 text-gray-700 hidden md:block">
+<div class="flex items-start mt-4">
+    <div class="items-center justify-center mr-5 text-gray-700 hidden md:block">
         <div>Showing <span class="font-semibold">{{$paginator->firstItem()}}</span> to <span class="font-semibold">{{$paginator->lastItem()}}</span> of <span class="font-semibold">{{$paginator->total()}}</span> items</div>
     </div>
     <ul class="flex flex-1 justify-end" role="navigation">
