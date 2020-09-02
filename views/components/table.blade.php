@@ -41,7 +41,7 @@
 
     <div class="mx-auto py-6 text-sm" x-data="datatables()" x-cloak>
         @include("paksuco-table::components.filters")
-        <div class="overflow-x-auto bg-white rounded-lg shadow overflow-y-auto relative">
+        <div class="overflow-x-auto bg-white border rounded shadow overflow-y-auto relative">
             <table class="border-collapse table-auto w-full whitespace-no-wrap bg-white table-striped relative">
                 <thead>
                     @include("paksuco-table::components.headers")
@@ -53,7 +53,7 @@
                 </tbody>
             </table>
         </div>
-        @if($pageable)
+        @if($settings->pageable)
         {{$rows->links()}}
         @endif
     </div>

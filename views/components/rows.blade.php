@@ -4,7 +4,7 @@
             <input type="checkbox" class="form-checkbox rowCheckbox focus:outline-none focus:shadow-outline">
         </label>
     </td>
-    @foreach($fields as $field)
+    @foreach($settings->fields as $field)
     <td class="border-dashed border-t border-gray-200 {{$field['name']}} {{$field['class'] ?? ''}}">
         <span class="text-gray-700 px-4 py-3 flex items-center">
             @if($field["type"] == "field")
