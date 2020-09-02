@@ -67,8 +67,8 @@ class Table extends Component
                 }
                 if ($this->settings->queryable) {
                     if (isset($field["queryable"]) && $field["queryable"] == true &&
-                        !empty($this->query)) {
-                        $query->orWhere($field["name"], "like", "%" . $this->query . "%");
+                        !empty($this->settings->query)) {
+                        $query->orWhere($field["name"], "like", "%" . $this->settings->query . "%");
                     }
                 }
             }
