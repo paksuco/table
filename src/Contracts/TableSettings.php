@@ -5,12 +5,17 @@ namespace Paksuco\Table\Contracts;
 abstract class TableSettings
 {
     public $model;
+    public $relations = [];
+
     public $queryable = false;
     public $sortable = false;
     public $pageable = false;
+
     public $perPage = 10;
     public $perPageOptions = [10, 25, 50, 100];
+
     public $fields = [];
+
     public $nested = false;
     public $nesting_field = null;
     public $nesting_target = "id";

@@ -54,10 +54,20 @@ class Table extends Component
         $this->render();
     }
 
+    public function setPerPage($perPage)
+    {
+        $this->settings->perPage = $perPage;
+    }
+
     private function getRows()
     {
         if (class_exists($this->settings->model)) {
             $query = $this->settings->model::query();
+
+            if (count($this->settings->relations) > 0) {
+                $query->with($this->settings->relations);
+            }
+
             $this->settings->query = trim($this->settings->query);
             $selects = [];
 
@@ -71,10 +81,6 @@ class Table extends Component
                         $query->orWhere($field["name"], "like", "%" . $this->settings->query . "%");
                     }
                 }
-            }
-
-            if (count($selects) > 0) {
-                $query->select($selects);
             }
 
             if ($this->settings->sortable) {
