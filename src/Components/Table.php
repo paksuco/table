@@ -2,10 +2,11 @@
 
 namespace Paksuco\Table\Components;
 
+use Illuminate\Database\Query\Expression;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Schema;
 use Livewire\Component;
 use Livewire\WithPagination;
-use Paksuco\Table\Contracts\TableCaster;
 use Paksuco\Table\Contracts\TableSettings;
 
 class Table extends Component
@@ -14,7 +15,7 @@ class Table extends Component
 
     public $settings;
 
-    protected $casts = [ 'settings' => '\Paksuco\Table\Contracts\TableCaster' ];
+    protected $casts = ['settings' => '\Paksuco\Table\Contracts\TableCaster'];
 
     public function mount(TableSettings $class)
     {
@@ -62,10 +63,13 @@ class Table extends Component
     private function getRows()
     {
         if (class_exists($this->settings->model)) {
-            $query = $this->settings->model::query();
+            $class = new $this->settings->model;
+
+            /** @var \Illuminate\Database\Eloquent\Model $query  */
+            $query = $class::query();
 
             if (count($this->settings->relations) > 0) {
-                $query->with($this->settings->relations);
+                $query = $this->addRelationJoins($query, $this->settings->relations);
             }
 
             $this->settings->query = trim($this->settings->query);
@@ -106,5 +110,26 @@ class Table extends Component
     public function paginationView()
     {
         return 'paksuco-table::pagination';
+    }
+
+    public function addRelationJoins($query, $relations)
+    {
+        foreach ($relations as $relation) {
+            $relation = $query->getModel()->$relation();
+            $table = $relation->getRelated()->getTable();
+            $one = $relation->getQualifiedParentKeyName();
+            $two = $relation->getForeignKeyName();
+
+            if (empty($query->columns)) {
+                $query->select($query->getModel()->getTable() . ".*");
+            }
+            foreach (Schema::getColumnListing($table) as $related_column) {
+                $query->addSelect(new Expression("`$table`.`$related_column` AS `$table.$related_column`"));
+            }
+
+            $query->join($table, $one, "=", $two, "left");
+
+        }
+        return $query;
     }
 }
