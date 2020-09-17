@@ -11,7 +11,7 @@
     <th class="text-left whitespace-no-wrap text-sm uppercase font-semibold p-2 px-4
     bg-gray-100 sticky top-0 border-b @if($fieldSortable) cursor-pointer pr-6 @endif text-gray-600  {{$field['name']}} {{$field['class'] ?? ''}}"
         x-ref="{{$field['name']}}" @if($fieldSortable) wire:click="toggleSort('{{$field['name']}}')" @endif>
-        {{__($field['name'])}}
+        {{__($field['title'] ?? $field['name'])}}
         @if($fieldSortable)
         <span class="absolute right-2 inset-y-0 flex items-center">
             @if(!isset($settings->sorts[$field['name']]) || $settings->sorts[$field['name']] == null)
