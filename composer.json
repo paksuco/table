@@ -13,6 +13,7 @@
   "require": {
     "php": ">=7.0.0",
     "illuminate/support": "^7.0",
+    "illuminate/pagination": "^7.0",
     "illuminate/config": "^7.0",
     "livewire/livewire": "^1.2"
   },
