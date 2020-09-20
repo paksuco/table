@@ -17,8 +17,10 @@ abstract class TableSettings
     public $fields = [];
 
     public $nested = false;
-    public $nesting_field = null;
-    public $nesting_target = "id";
+    public $nestingField = null;
+    public $nestingTarget = "id";
+
+    public $batchActions = false;
 
     public $query = "";
     public $sorts = [];

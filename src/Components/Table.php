@@ -6,6 +6,7 @@ use Illuminate\Database\Query\Expression;
 use Illuminate\Http\Response;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\Str;
 use Livewire\Component;
 use Livewire\WithPagination;
 use Paksuco\Table\Contracts\TableSettings;
@@ -16,11 +17,22 @@ class Table extends Component
 
     public $settings;
 
+    public $updated;
+
     protected $casts = ['settings' => '\Paksuco\Table\Contracts\TableCaster'];
 
-    public function mount(TableSettings $class)
+    protected $listeners = ['refresh'];
+
+    public function mount(TableSettings $class, $extras = null)
     {
         $this->settings = $class;
+        $this->updated = false;
+    }
+
+    public function refresh()
+    {
+        $this->updated = !$this->updated;
+        $this->render();
     }
 
     public function render()
@@ -29,7 +41,6 @@ class Table extends Component
 
         return view("paksuco-table::components.table", [
             "rows" => $rows,
-            // "settings" => $this->settings
         ]);
     }
 
@@ -134,6 +145,8 @@ class Table extends Component
 
     public function addRelationJoins($query, $relations)
     {
+        $tablesJoined = collect([$query->getModel()->getTable()]);
+
         if (empty($query->columns)) {
             $query->addSelect($query->getModel()->getTable() . ".*");
         }
@@ -142,14 +155,23 @@ class Table extends Component
             /** @var \Illuminate\Database\Eloquent\Relations\BelongsTo $relation */
             $relation = $query->getModel()->$relation();
             $table = $relation->getRelated()->getTable();
-            $one = $relation->getQualifiedOwnerKeyName();
-            $two = $relation->getQualifiedForeignKeyName();
+            $tableAlias = Str::singular(Str::camel($table));
 
-            foreach (Schema::getColumnListing($table) as $related_column) {
-                $query->addSelect(new Expression("`$table`.`$related_column` AS `$table.$related_column`"));
+            while ($tablesJoined->contains($tableAlias)) {
+                $tableAlias = $tableAlias . "Parent";
             }
 
-            $query->join($table, $one, "=", $two, "left");
+            $one = $relation->getQualifiedOwnerKeyName();
+            $two = $relation->getQualifiedForeignKeyName();
+            $one = str_replace("$table.", "$tableAlias.", $one);
+
+            foreach (Schema::getColumnListing($table) as $related_column) {
+                $query->addSelect(new Expression("`$tableAlias`.`$related_column` AS `$tableAlias.$related_column`"));
+            }
+
+            $query->join(new Expression("$table as $tableAlias"), $one, "=", $two, "left");
+
+            $tablesJoined->push($table);
         }
 
         return $query;

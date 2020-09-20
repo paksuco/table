@@ -1,4 +1,5 @@
 <tr class="text-left">
+    @if($settings->batchActions)
     <th class="py-2 px-3 sticky top-0 border-b border-gray-200 bg-gray-100">
         <label
                class="text-blue-700 inline-flex justify-between items-center hover:bg-gray-200 px-2 py-2 rounded-lg cursor-pointer">
@@ -6,6 +7,7 @@
                    @click="selectAllCheckbox($event);">
         </label>
     </th>
+    @endif
     @foreach($settings->fields as $field)
     @php $fieldSortable = $settings->sortable && isset($field["sortable"]) && $field["sortable"] == true; @endphp
     <th class="text-left whitespace-no-wrap text-sm uppercase font-semibold p-2 px-4
