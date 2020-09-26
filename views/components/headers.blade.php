@@ -1,6 +1,9 @@
 <tr class="text-left">
+    @if($has_extended)
+    <th class="py-2 px-3 top-0 border-b border-gray-200 bg-gray-100">&nbsp;</th>
+    @endif
     @if($settings->batchActions)
-    <th class="py-2 px-3 sticky top-0 border-b border-gray-200 bg-gray-100">
+    <th class="py-2 px-3 top-0 border-b border-gray-200 bg-gray-100">
         <label
                class="text-blue-700 inline-flex justify-between items-center hover:bg-gray-200 px-2 py-2 rounded-lg cursor-pointer">
             <input type="checkbox" class="form-checkbox focus:outline-none focus:shadow-outline"
@@ -9,9 +12,12 @@
     </th>
     @endif
     @foreach($settings->fields as $field)
+    @if($has_extended && isset($field["extended"]) && $field["extended"] == true)
+        @continue
+    @endif
     @php $fieldSortable = $settings->sortable && isset($field["sortable"]) && $field["sortable"] == true; @endphp
     <th class="text-left whitespace-no-wrap text-sm uppercase font-semibold p-2 px-4
-    bg-gray-100 sticky top-0 border-b @if($fieldSortable) cursor-pointer pr-6 @endif text-gray-600  {{$field['name']}} {{$field['class'] ?? ''}}"
+    bg-gray-100 top-0 border-b @if($fieldSortable) cursor-pointer pr-6 @endif text-gray-600  {{$field['name']}} {{$field['class'] ?? ''}}"
         x-ref="{{$field['name']}}" @if($fieldSortable) wire:click="toggleSort('{{$field['name']}}')" @endif>
         {{__($field['title'] ?? $field['name'])}}
         @if($fieldSortable)

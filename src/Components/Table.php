@@ -38,9 +38,11 @@ class Table extends Component
     public function render()
     {
         $rows = $this->getRows();
+        $hasExtended = collect($this->settings->fields)->firstWhere("extended", true) !== null;
 
         return view("paksuco-table::components.table", [
             "rows" => $rows,
+            "has_extended" => $hasExtended
         ]);
     }
 
