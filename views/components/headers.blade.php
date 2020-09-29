@@ -1,6 +1,6 @@
 <tr class="text-left">
     @if($has_extended)
-    <th class="py-2 px-3 top-0 border-b border-gray-200 bg-gray-100">&nbsp;</th>
+    <th class="py-2 px-3 top-0 border-b border-gray-200 bg-gray-100 relative">&nbsp;</th>
     @endif
     @if($settings->batchActions)
     <th class="py-2 px-3 top-0 border-b border-gray-200 bg-gray-100">
@@ -16,7 +16,7 @@
         @continue
     @endif
     @php $fieldSortable = $settings->sortable && isset($field["sortable"]) && $field["sortable"] == true; @endphp
-    <th class="text-left whitespace-no-wrap text-sm uppercase font-semibold p-2 px-4
+    <th class="text-left whitespace-no-wrap text-sm uppercase font-semibold p-2 px-4 relative
     bg-gray-100 top-0 border-b @if($fieldSortable) cursor-pointer pr-6 @endif text-gray-600  {{$field['name']}} {{$field['class'] ?? ''}}"
         x-ref="{{$field['name']}}" @if($fieldSortable) wire:click="toggleSort('{{$field['name']}}')" @endif>
         {{__($field['title'] ?? $field['name'])}}

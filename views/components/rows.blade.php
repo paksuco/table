@@ -4,7 +4,7 @@
 @endphp
 <tr>
     @if($has_extended)
-    <td class="border-dashed border-t border-gray-200 pl-3">
+    <td class="border-dashed border-t border-gray-200 pl-3 border-r">
         <i class="fa fa-plus-circle text-green-400 text-lg cursor-pointer"
             onclick="var item = document.querySelector('#row-{{$rand}}');
                 item.classList.toggle('hidden');

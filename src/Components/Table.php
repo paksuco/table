@@ -42,7 +42,7 @@ class Table extends Component
 
         return view("paksuco-table::components.table", [
             "rows" => $rows,
-            "has_extended" => $hasExtended
+            "has_extended" => $hasExtended,
         ]);
     }
 
@@ -118,6 +118,11 @@ class Table extends Component
                         $query->orderByDesc($key);
                     }
                 }
+            }
+
+            if ((is_array($this->settings->filters) && count($this->settings->filters) > 0) ||
+                is_callable($this->settings->filters)) {
+                $query->where($this->settings->filters);
             }
 
             if ($this->settings->pageable) {
