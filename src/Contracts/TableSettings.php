@@ -29,7 +29,7 @@ abstract class TableSettings
 
     public function __construct()
     {
-        $this->class = get_class($this);
+        $this->class = get_called_class();
     }
 
     public function toArray()

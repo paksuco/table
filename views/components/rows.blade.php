@@ -4,7 +4,7 @@
 @endphp
 <tr>
     @if($has_extended)
-    <td class="border-dashed border-t border-gray-200 pl-3 border-r">
+    <td class="border-dashed border-t border-gray-200 px-3 border-r">
         <i class="fa fa-plus-circle text-green-400 text-lg cursor-pointer"
             onclick="var item = document.querySelector('#row-{{$rand}}');
                 item.classList.toggle('hidden');
@@ -24,7 +24,7 @@
         @continue
     @endif
     <td class="border-dashed border-t border-gray-200 {{$field['name']}} {{$field['class'] ?? ''}}">
-        <span class="text-gray-700 px-4 py-3 flex items-center">
+        <span class="text-gray-700 px-2 py-2 flex items-center">
             @if($field["type"] == "field")
             @php $formatter = "Paksuco\\Table\\Formatters\\" . $field["format"]. "Formatter"; @endphp
             @if(class_exists($formatter))
