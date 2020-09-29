@@ -159,18 +159,24 @@ class Table extends Component
         }
 
         foreach ($relations as $relation) {
-            /** @var \Illuminate\Database\Eloquent\Relations\BelongsTo $relation */
-            $relation = $query->getModel()->$relation();
-            $table = $relation->getRelated()->getTable();
+            /** @var \Illuminate\Database\Eloquent\Relations\Relation $relation */
+            $relationInstance = $query->getModel()->$relation();
+            $table = $relationInstance->getRelated()->getTable();
             $tableAlias = Str::singular(Str::camel($table));
 
             while ($tablesJoined->contains($tableAlias)) {
                 $tableAlias = $tableAlias . "Parent";
             }
 
-            $one = $relation->getQualifiedOwnerKeyName();
-            $two = $relation->getQualifiedForeignKeyName();
-            $one = str_replace("$table.", "$tableAlias.", $one);
+            if ($relationInstance instanceof \Illuminate\Database\Eloquent\Relations\BelongsTo) {
+                /** @var \Illuminate\Database\Eloquent\Relations\BelongsTo $relationInstance */
+                $one = $relationInstance->getQualifiedOwnerKeyName();
+                $two = $relationInstance->getQualifiedForeignKeyName();
+                $one = str_replace("$table.", "$tableAlias.", $one);
+            } else {
+                $query->with($relation);
+                continue;
+            }
 
             foreach (Schema::getColumnListing($table) as $related_column) {
                 $query->addSelect(new Expression("`$tableAlias`.`$related_column` AS `$tableAlias.$related_column`"));
@@ -180,7 +186,7 @@ class Table extends Component
 
             $tablesJoined->push($table);
         }
-
+        //die($query->toSql());
         return $query;
     }
 }
