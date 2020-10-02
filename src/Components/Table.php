@@ -108,6 +108,12 @@ class Table extends Component
                 }
             }
 
+            if ($this->settings->trashed) {
+                if ($class->hasGlobalScope('Illuminate\Database\Eloquent\SoftDeletingScope')) {
+                    $query->withTrashed();
+                }
+            }
+
             if ($this->settings->sortable) {
                 foreach (array_filter($this->settings->sorts) as $key => $sort) {
                     if ($hasRelations && strpos($key, ".") === false) {

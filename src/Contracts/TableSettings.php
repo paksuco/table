@@ -15,6 +15,7 @@ abstract class TableSettings
     public $perPageOptions = [10, 25, 50, 100];
 
     public $fields = [];
+    public $trashed = false;
 
     public $nested = false;
     public $nestingField = null;
