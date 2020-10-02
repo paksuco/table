@@ -17,7 +17,7 @@
     @endif
     @php $fieldSortable = $settings->sortable && isset($field["sortable"]) && $field["sortable"] == true; @endphp
     <th class="text-left whitespace-no-wrap border-b border-r border-gray-200 text-sm uppercase font-semibold p-2 px-4 relative
-    bg-gray-100 top-0 border-b @if($fieldSortable) cursor-pointer pr-6 @endif text-gray-600  {{$field['name']}} {{$field['class'] ?? ''}}"
+    bg-gray-100 top-0 @if($fieldSortable) cursor-pointer pr-6 @endif text-gray-600  {{$field['name']}} {{$field['class'] ?? ''}}"
         x-ref="{{$field['name']}}" @if($fieldSortable) wire:click="toggleSort('{{$field['name']}}')" @endif>
         {{__($field['title'] ?? $field['name'])}}
         @if($fieldSortable)

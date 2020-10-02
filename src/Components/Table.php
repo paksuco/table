@@ -37,6 +37,7 @@ class Table extends Component
 
     public function render()
     {
+        $this->settings->__construct();
         $rows = $this->getRows();
         $hasExtended = collect($this->settings->fields)->firstWhere("extended", true) !== null;
 
