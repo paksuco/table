@@ -108,6 +108,10 @@ class Table extends Component
                 }
             }
 
+            if (count($this->settings->counts)) {
+                $query->withCount($this->settings->counts);
+            }
+
             if ($this->settings->trashed) {
                 if ($class->hasGlobalScope('Illuminate\Database\Eloquent\SoftDeletingScope')) {
                     $query->withTrashed();

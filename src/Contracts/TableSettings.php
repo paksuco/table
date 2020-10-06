@@ -6,6 +6,7 @@ abstract class TableSettings
 {
     public $model;
     public $relations = [];
+    public $counts = [];
 
     public $queryable = false;
     public $sortable = false;
