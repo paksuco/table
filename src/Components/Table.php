@@ -19,8 +19,6 @@ class Table extends Component
 
     public $updated;
 
-    protected $casts = ['settings' => '\Paksuco\Table\Contracts\TableCaster'];
-
     protected $listeners = ['refresh'];
 
     public function mount(TableSettings $class, $extras = null)
@@ -33,6 +31,18 @@ class Table extends Component
     {
         $this->updated = !$this->updated;
         $this->render();
+    }
+
+    public function hydrate()
+    {
+        /** @var \Paksuco\Table\Contracts\TableSettings */
+        $class = $this->settings["class"];
+        $this->settings = $class::fromArray($class, $this->settings);
+    }
+
+    public function dehydrate()
+    {
+        $this->settings = $this->settings->toArray();
     }
 
     public function render()
@@ -131,9 +141,8 @@ class Table extends Component
                 }
             }
 
-            if ((is_array($this->settings->filters) && count($this->settings->filters) > 0) ||
-                is_callable($this->settings->filters)) {
-                $query->where($this->settings->filters);
+            if (method_exists($this->settings, "getFilters")) {
+                $query->where($this->settings->getFilters());
             }
 
             if ($this->settings->pageable) {
