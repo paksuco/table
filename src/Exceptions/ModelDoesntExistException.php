@@ -10,7 +10,6 @@ class ModelDoesntExistException extends Exception
 
     public function __construct($model)
     {
-        dd("taha");
         $this->model = $model;
         parent::__construct();
     }
