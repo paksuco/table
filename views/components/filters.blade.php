@@ -4,7 +4,7 @@
         <div class="relative md:w-1/3">
             <input type="search" wire:model.debounce.500ms="settings.query"
                 class="w-full py-2 pl-8 pr-4 font-medium text-gray-600 border rounded shadow-sm focus:outline-none focus:shadow-outline"
-                placeholder="Search...">
+                placeholder="@lang('Search...')">
             <div class="absolute inset-y-0 inline-flex items-center justify-center left-2">
                 <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-gray-400" viewBox="0 0 24 24"
                     stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round"
