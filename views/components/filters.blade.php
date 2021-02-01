@@ -71,16 +71,16 @@
                 </button>
 
                 <div x-show="open" @click.away="open = false"
-                    class="absolute top-0 right-0 z-40 block w-40 py-1 mt-12 -mr-1 overflow-hidden bg-white border rounded shadow-sm">
-                    @foreach(collect($settings->fields)->pluck("name") as $header)
+                    class="absolute top-0 right-0 z-40 block w-64 py-1 mt-12 -mr-1 overflow-hidden bg-white border rounded shadow-sm">
+                    @foreach(collect($settings->fields)->pluck("title", "name") as $key => $header)
                     <label
                         class="flex items-center justify-start px-4 py-2 text-truncate hover:bg-gray-100">
                         <div class="mr-3 text-teal-600">
                             <input type="checkbox"
                                 class="form-checkbox focus:outline-none focus:shadow-outline" checked
-                                @click="parent.toggleColumn('{{$header}}', $event)">
+                                @click="parent.toggleColumn('{{$key}}', $event)">
                         </div>
-                        <div class="text-gray-700 select-none" x-text="'{{$header}}'"></div>
+                        <div class="text-gray-700 select-none" x-text="'{{__($header ?? $key)}}'"></div>
                     </label>
                     @endforeach
                 </div>

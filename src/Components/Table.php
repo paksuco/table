@@ -5,6 +5,7 @@ namespace Paksuco\Table\Components;
 use Illuminate\Database\Query\Expression;
 use Illuminate\Http\Response;
 use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Str;
 use Livewire\Component;
@@ -111,9 +112,15 @@ class Table extends Component
                     $selects[] = $field["name"];
                 }
                 if ($this->settings->queryable) {
-                    if (isset($field["queryable"]) && $field["queryable"] == true &&
-                        !empty($this->settings->query)) {
-                        $query->orWhere($field["name"], "like", "%" . $this->settings->query . "%");
+                    if (
+                        isset($field["queryable"]) && $field["queryable"] == true &&
+                        !empty($this->settings->query)
+                    ) {
+                        $query->orWhere(
+                            DB::raw("LOWER(`" . implode("`.`", explode(".", $field["name"])) . "`)"),
+                            "like",
+                            "%" . strtolower($this->settings->query) . "%"
+                        );
                     }
                 }
             }
