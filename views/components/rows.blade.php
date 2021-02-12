@@ -2,10 +2,10 @@
     $fieldCount = $has_extended ? 2 : 1;
     $rand = Str::random(6);
 @endphp
-<tr>
+<tr class="border-t border-gray-300">
     @if($has_extended)
-    <td class="border-dashed border-t border-gray-200 text-center p-2 border-r">
-        <i class="fa fa-plus-circle text-green-400 text-2xl cursor-pointer"
+    <td class="p-2 text-center border-t border-r border-gray-200 border-dashed">
+        <i class="text-2xl text-green-400 cursor-pointer fa fa-plus-circle"
             onclick="var item = document.querySelector('#row-{{$rand}}');
                 item.classList.toggle('hidden');
                 this.classList.toggle('text-green-400');
@@ -13,8 +13,8 @@
     </td>
     @endif
     @if($settings->batchActions)
-    <td class="border-dashed border-t border-gray-200 p-2">
-        <label class="text-blue-700 inline-flex justify-between items-center hover:bg-gray-200 rounded-lg cursor-pointer">
+    <td class="p-2 border-t border-gray-200 border-dashed">
+        <label class="inline-flex items-center justify-between text-blue-700 rounded-lg cursor-pointer hover:bg-gray-200">
             <input type="checkbox" class="form-checkbox rowCheckbox focus:outline-none focus:shadow-outline">
         </label>
     </td>
@@ -40,13 +40,13 @@
 </tr>
 @if($has_extended)
 <tr id="row-{{$rand}}" class="hidden">
-    <td class="p-2 bg-gray-700 text-white" colspan="{{$fieldCount}}">
-        <div class="flex w-full flex-wrap whitespace-pre-line">
+    <td class="p-2 text-white bg-gray-700" colspan="{{$fieldCount}}">
+        <div class="flex flex-wrap w-full whitespace-pre-line">
         @foreach($settings->fields as $field)
             @if(isset($field["extended"]) && $field["extended"] == true)
             <div class="flex w-full">
-                <label class="w-36 font-semibold px-2">{{__($field["title"] ?? $field["name"])}}</label>
-                <div class="text-gray-100 px-2 flex"><!--
+                <label class="px-2 font-semibold w-36">{{__($field["title"] ?? $field["name"])}}</label>
+                <div class="flex px-2 text-gray-100"><!--
                     @if($field["type"] == "field")
                     @php $formatter = "Paksuco\\Table\\Formatters\\" . $field["format"]. "Formatter"; @endphp
                     @if(class_exists($formatter))

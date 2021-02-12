@@ -189,7 +189,7 @@ class Table extends Component
             /** @var \Illuminate\Database\Eloquent\Relations\Relation $relation */
             $relationInstance = $query->getModel()->$relation();
             $table = $relationInstance->getRelated()->getTable();
-            $tableAlias = Str::singular(Str::camel($table));
+            $tableAlias = $relation;
 
             while ($tablesJoined->contains($tableAlias)) {
                 $tableAlias = $tableAlias . "Parent";
