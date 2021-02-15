@@ -9,7 +9,7 @@ class StringFormatter
     public static function format($value)
     {
         if (substr($value, 0, 1) == "{") {
-            $json = json_decode($value, true);
+            $json = json_decode(stripslashes($value), true);
             if (is_array($json)) {
                 if (array_key_exists(App::getLocale(), $json)) {
                     return $json[App::getLocale()] . "";

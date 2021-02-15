@@ -2,7 +2,7 @@
     $fieldCount = $has_extended ? 2 : 1;
     $rand = Str::random(6);
 @endphp
-<tr class="border-t border-gray-300">
+<tr class="align-top border-t border-gray-300 hover:bg-indigo-50 {{$loop->index % 2 === 0 ? 'bg-cool-gray-50' : ''}}">
     @if($has_extended)
     <td class="p-2 text-center border-t border-r border-gray-200 border-dashed">
         <i class="text-2xl text-green-400 cursor-pointer fa fa-plus-circle"
@@ -25,7 +25,7 @@
     @endif
     <td class="border-dashed border-t border-gray-200 p-2 {{$field['name']}} {{$field['class'] ?? ''}}"><!--
         @if($field["type"] == "field")
-        @php $formatter = "Paksuco\\Table\\Formatters\\" . $field["format"]. "Formatter"; @endphp
+        @php $formatter = "\\Paksuco\\Table\\Formatters\\" . ucfirst($field["format"]). "Formatter"; @endphp
         @if(class_exists($formatter))
     -->{!! $formatter::format($row[$field["name"]]) !!}<!--
         @else
