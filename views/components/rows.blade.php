@@ -27,7 +27,7 @@
         @if($field["type"] == "field")
         @php $formatter = "\\Paksuco\\Table\\Formatters\\" . ucfirst($field["format"]). "Formatter"; @endphp
         @if(class_exists($formatter))
-    -->{!! $formatter::format($row[$field["name"]]) !!}<!--
+    -->{!! $formatter::format($field["name"], $row) !!}<!--
         @else
     -->{{$row[$field["name"]]}}<!--
         @endif
@@ -50,7 +50,7 @@
                     @if($field["type"] == "field")
                     @php $formatter = "Paksuco\\Table\\Formatters\\" . $field["format"]. "Formatter"; @endphp
                     @if(class_exists($formatter))
-                -->{!! $formatter::format($row[$field["name"]]) !!}<!--
+                -->{!! $formatter::format($field["name"] ,$row) !!}<!--
                     @else
                 -->{{$row[$field["name"]]}}<!--
                     @endif

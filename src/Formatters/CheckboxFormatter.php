@@ -2,13 +2,15 @@
 
 namespace Paksuco\Table\Formatters;
 
-class CheckboxFormatter
+use Paksuco\Table\Contracts\CellFormatter;
+
+class CheckboxFormatter implements CellFormatter
 {
-    public static function format($value)
+    public static function format($field, $row)
     {
-        if (!!$value) {
-            return "<i class='fa fa-check text-green-400'></i>";
+        if (!!$row[$field]) {
+            return "<i class='text-green-400 fa fa-check'></i>";
         }
-        return "<i class='fa fa-times text-red-400'></i>";
+        return "<i class='text-red-400 fa fa-times'></i>";
     }
 }

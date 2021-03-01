@@ -3,11 +3,14 @@
 namespace Paksuco\Table\Formatters;
 
 use Illuminate\Support\Facades\App;
+use Paksuco\Table\Contracts\CellFormatter;
 
-class StringFormatter
+class StringFormatter implements CellFormatter
 {
-    public static function format($value)
+    public static function format($field, $row)
     {
+        $value = $row[$field];
+
         if (substr($value, 0, 1) == "{") {
             $json = json_decode(stripslashes($value), true);
             if (is_array($json)) {
