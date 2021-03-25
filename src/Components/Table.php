@@ -162,7 +162,9 @@ class Table extends Component
                     $offset = 0;
                 }
                 $rows = $query->offset($offset)->limit($perPage)->get();
-                return new LengthAwarePaginator($rows, $total, $perPage, $currentPage);
+                dump(request()->input());
+                return (new LengthAwarePaginator($rows, $total, $perPage, $currentPage))
+                    ->appends($this->settings->appends);
                 // return $query->paginate($this->settings->perPage);
             }
 

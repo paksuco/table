@@ -29,6 +29,8 @@ abstract class TableSettings
     public $filters = [];
     public $class = "";
 
+    public $appends = [];
+
     public function __construct()
     {
         $this->class = get_called_class();
