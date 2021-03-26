@@ -20,12 +20,18 @@ class Table extends Component
 
     public $updated;
 
+    public $extras;
+
+    public $request;
+
     protected $listeners = ['refresh'];
 
-    public function mount(TableSettings $class, $extras = null)
+    public function mount(TableSettings $class, $extras = [])
     {
         $this->settings = $class;
-        $this->updated = false;
+        $this->extras   = $extras;
+        $this->request  = request()->input();
+        $this->updated  = false;
     }
 
     public function refresh()
@@ -149,7 +155,7 @@ class Table extends Component
             }
 
             if (method_exists($this->settings, "getFilters")) {
-                $query->where($this->settings->getFilters());
+                $query->where($this->settings->getFilters($this->request));
             }
 
             if ($this->settings->pageable) {
@@ -162,10 +168,8 @@ class Table extends Component
                     $offset = 0;
                 }
                 $rows = $query->offset($offset)->limit($perPage)->get();
-                dump(request()->input());
-                return (new LengthAwarePaginator($rows, $total, $perPage, $currentPage))
-                    ->appends($this->settings->appends);
-                // return $query->paginate($this->settings->perPage);
+                $paginator = new LengthAwarePaginator($rows, $total, $perPage, $currentPage);
+                return $paginator;
             }
 
             return $query->get();

@@ -2,6 +2,8 @@
 
 namespace Paksuco\Table\Contracts;
 
+use Illuminate\Support\Facades\Request;
+
 abstract class TableSettings
 {
     public $model;
@@ -24,16 +26,16 @@ abstract class TableSettings
 
     public $batchActions = false;
 
-    public $query = "";
-    public $sorts = [];
+    public $query   = "";
+    public $sorts   = [];
     public $filters = [];
-    public $class = "";
+    public $class   = "";
 
     public $appends = [];
 
     public function __construct()
     {
-        $this->class = get_called_class();
+        $this->class   = get_called_class();
     }
 
     public function toArray()

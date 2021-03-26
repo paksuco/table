@@ -54,7 +54,7 @@
             </table>
         </div>
         @if($settings->pageable)
-        {{$rows->links()}}
+            {{$rows->links()}}
         @endif
     </div>
 
