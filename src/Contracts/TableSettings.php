@@ -32,6 +32,7 @@ abstract class TableSettings
     public $class   = "";
 
     public $appends = [];
+    public $extras = null;
 
     public function __construct()
     {

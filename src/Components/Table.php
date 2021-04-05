@@ -30,7 +30,10 @@ class Table extends Component
     {
         $this->settings = $class;
         $this->extras   = $extras;
-        $this->request  = request()->input();
+        $this->request  = [
+            "route" => request()->route()->parameters,
+            "query" => request()->input()
+        ];
         $this->updated  = false;
     }
 
@@ -118,10 +121,8 @@ class Table extends Component
                     $selects[] = $field["name"];
                 }
                 if ($this->settings->queryable) {
-                    if (
-                        isset($field["queryable"]) && $field["queryable"] == true &&
-                        !empty($this->settings->query)
-                    ) {
+                    if (isset($field["queryable"]) && $field["queryable"] == true &&
+                        !empty($this->settings->query)) {
                         $query->orWhere(
                             DB::raw("LOWER(`" . implode("`.`", explode(".", $field["name"])) . "`)"),
                             "like",
